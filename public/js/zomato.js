@@ -1,7 +1,7 @@
 // 16781992
 // 16784984
 
-alert("it's connected");
+// alert("it's connected");
 
 console.log("it's connected");
 
