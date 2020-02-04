@@ -158,10 +158,6 @@ $("#updateButton").click(function() {
     url: "/api/checkinconfirm",
     method: "PUT"
   }).then(function(response) {
-    console.log(response);
+    // console.log(response);
   });
 })
-
-
-
-

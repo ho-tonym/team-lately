@@ -28,24 +28,26 @@ module.exports = function (app) {
 
 	//USE THIS TO CLICK SEARCH AND POPULATE YOUR DB
 	// if you dont have a matching REST_ID in your db to query
-	// app.get('/', async function (req, res) {
-	// 		res.render('index');
-	// });
+	app.get('/', async function (req, res) {
+		const restData = await db.Restaurants.findAll({include: [db.checkins]})
+		// console.log(restData);
+			res.render('index', {restData: restData});
+	});
 
 		// Load index page
-	app.get('/', async function (req, res) {
+	// app.get('/', async function (req, res) {
 // example restaurant
-		// # REST_ID, REST_NAME, REST_CUISINES, REST_LAT, REST_LONG, REST_ADDRESS, REST_IMAGE, createdAt, updatedAt
-		// '16785398', 'Shake Shack', 'American, Burger', '40.7587361', '-73.9890139', '691 8th Avenue, New York 10036', 'https://b.zmtcdn.com/data/res_imagery/16785398_RESTAURANT_9808b948d2739435ea95bd3002d95cda.jpg?output-format=webp', '2019-11-17 06:11:43', '2019-11-17 06:11:43'
+// 		# REST_ID, REST_NAME, REST_CUISINES, REST_LAT, REST_LONG, REST_ADDRESS, REST_IMAGE, createdAt, updatedAt
+// 		'16785398', 'Shake Shack', 'American, Burger', '40.7587361', '-73.9890139', '691 8th Avenue, New York 10036', 'https://b.zmtcdn.com/data/res_imagery/16785398_RESTAURANT_9808b948d2739435ea95bd3002d95cda.jpg?output-format=webp', '2019-11-17 06:11:43', '2019-11-17 06:11:43'
 
-//exmaple client
-		// '2', 'fwefa@gmail.com', '123', '123', '1', '2019-11-17 06:12:16', '2019-11-17 06:12:16', '16785398'
-		const dbRest = await db.Restaurants.findAll({
-			where: {REST_ID: '16785398'},
-			include: [db.checkins]
-		})
-		res.json(dbRest)
-	})
+// exmaple client
+// 		'2', 'fwefa@gmail.com', '123', '123', '1', '2019-11-17 06:12:16', '2019-11-17 06:12:16', '16785398'
+	// 	const dbRest = await db.Restaurants.findAll({
+	// 		where: {REST_ID: '16785398'},
+	// 		include: [db.checkins]
+	// 	})
+	// 	res.json(dbRest)
+	// })
 
 
 

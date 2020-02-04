@@ -1,37 +1,7 @@
 var db = require('../models');
 
 module.exports = function (app) {
-	// Create a new example
-	// app.post("/api/examples", function (req, res) {
-	//   db.Example.create(req.body).then(function (dbExample) {
-	//     res.json(dbExample);
-	//   });
-	// });
 
-	// // Delete an example by id
-	// app.delete("/api/examples/:id", function (req, res) {
-	//   db.Example.destroy({ where: { id: req.params.id } }).then(function (dbExample) {
-	//     res.json(dbExample);
-	//   });
-	// });
-
-	// <!--==========================
-	// API Routes for app
-	// ============================-->
-
-	// Get data on resturant selected
-	// app.get("/api/checkins/", function (req, res) {
-	//   db.checkins.findAll({
-	//     where: {
-	//       REST_ID: "11"
-	//     }
-	//   }).then(function (dbcheckins) {
-	//     // res.json(dbcheckins);
-	//     res.redirect('/')
-	//   });
-	// });
-
-	// Averages objects
 	app.get('/api/checkinave/', function (req, res) {
 		db.checkins
 			.findAll({
@@ -48,26 +18,29 @@ module.exports = function (app) {
 	});
 
 	// Add a new checkin to the database
-	app.post('/api/checkins/:restID', function (req, res) {
+	app.post('/api/checkins/:restID', async function (req, res) {
 		// console.log(req.body);
-		// inserting the wrong restuarantID
 		// console.log(req.params.restID);
+		const restID = req.params.restID
+		const restData = await db.Restaurants.findOne({
+			where: {REST_ID: restID},
+		})
 		db.checkins.create({
-				REST_ID: req.params.restID,
-				USER_EMAIL: req.body.USER_EMAIL,
-				CURRENT_WAIT: req.body.CURRENT_WAIT,
-				PARTY_SIZE: req.body.PARTY_SIZE,
-				WAIT_ACTIVE: 1,
-				REST_NAME: req.body.REST_NAME,
-				REST_CUISINES: req.body.REST_CUISINES,
-				REST_LAT: req.body.REST_LAT,
-				REST_LONG: req.body.REST_LONG,
-				REST_ADDRESS: req.body.REST_ADDRESS,
-				REST_IMAGE: req.body.REST_IMAGE
-			})
-			.then(function (dbcheckins) {
-				res.redirect('/');
-			});
+			REST_ID: restData.REST_ID,
+			USER_EMAIL: req.body.USER_EMAIL,
+			CURRENT_WAIT: req.body.CURRENT_WAIT,
+			PARTY_SIZE: req.body.PARTY_SIZE,
+			WAIT_ACTIVE: 1,
+			REST_NAME: req.body.REST_NAME,
+			REST_CUISINES: req.body.REST_CUISINES,
+			REST_LAT: req.body.REST_LAT,
+			REST_LONG: req.body.REST_LONG,
+			REST_ADDRESS: req.body.REST_ADDRESS,
+			REST_IMAGE: req.body.REST_IMAGE
+		})
+		.then(function (dbcheckins) {
+			res.redirect('/');
+		});
 	});
 
 	// restaurants zomato data
@@ -91,7 +64,9 @@ module.exports = function (app) {
 						}
 			    })
 				.catch((error)=>{
+
 					console.log(error);
+										console.log("ERROR")
 				})
 		}
 		res.json('restData route hit');

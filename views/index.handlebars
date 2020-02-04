@@ -65,7 +65,7 @@
     <form>
       <div class="input-group mb-3">
         <input type="text" class="form-control" id="searchInput" placeholder="Restaurant or Location" action="POST">
-        
+
       </div>
 
       <a href="#searchBtn" id="#search" class="btn-get-started" onclick="getLocation()">Search</a>
@@ -78,7 +78,7 @@
     <button onclick="getLocation()">Try It</button> --}}
     <p id="demo"></p>
 
-{{!--     
+{{!--
     <form action="/zomato" method="post">
       Lat: <input type="text" name="lat" value="40.723548"><br>
       Lng: <input type="text" name="lng" value="-74.0085838"><br>
@@ -96,52 +96,58 @@
 
   <section id="facts">
 
-
     <div class="container wow fadeIn">
-      <div class="row">
+        {{#each restData}}
+        {{this.REST_ID}}
+        {{log this.checkins}}
+          <div class="row">
         <div class="col-lg-3 col-6">
-          <img src={{rest_image}} class="img-thumbnail"
+          <img src={{this.REST_IMAGE}} class="img-thumbnail"
             alt="">
         </div>
         <div class="col-lg-9 col-18">
           <div class="section-header">
-            <h3 class="section-title">{{rest_name}}</h3>
-            <p class="section-description">{{rest_address}}</p>
+            <h3 class="section-title"></h3>
+            <p class="section-description">{{this.REST_ADDRESS}}</p>
           </div>
           <div class="row counters">
 
 
             <div class="col-lg-3 col-6 text-center">
-              <span data-toggle="counter-up">{{totalWaiting}}</span>
+              <span data-toggle="counter-up">{{this.REST_NAME}}</span>
               <p>Now Waiting</p>
             </div>
 
             <div class="col-lg-3 col-6 text-center">
-              <span data-toggle="counter-up">{{party2Max.avgWait}}</span>
+              <span data-toggle="counter-up">
+                {{#if this.checkins.CURRENT_WAIT}}
+                  {{this.checkins.CURRENT_WAIT}}
+                {{else}}
+                  0
+                {{/if}}
+              </span>
               <p>Mins Wait (Party of 2)</p>
             </div>
 
             <div class="col-lg-3 col-6 text-center">
-              <span data-toggle="counter-up">{{party3More.avgWait}}</span>
+              <span data-toggle="counter-up">
+                {{#if this.checkins.CURRENT_WAIT}}
+                  {{this.checkins.CURRENT_WAIT}}
+                {{else}}
+                  0
+                {{/if}}
+              </span>
               <p>Mins Wait (3 or more)</p>
             </div>
-
-
-
-            <!--==========================
-            Modal Pop-up to add current waittimes
-            ============================-->
-            <button class="btn btn-primary" id="myBtn">Check into Waitlist</button>
-
+              <button class="btn btn-primary" id="myBtn">Check into Waitlist</button>
+            </div>
+            <hr>
             <div id="myModal" class="modal" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div id="modelInputs input-group mb-3">
-                    <form class="clearfix mb-4 form-control" action="/api/checkins" method="POST">
-
-
+                    <form class="clearfix mb-4 form-control" action="/api/checkins/{{this.REST_ID}}" method="POST">
                       <h2>Add your current wait time!</h2>
-
                       <input name="USER_EMAIL" type="email" class="form-control-1" placeholder="Enter Email Address">
                       {{!-- <input name="REST_ID" type="hidden" id="example-text" class="form-control-1" placeholder="Enter Resturant"> --}}
                       <input name="CURRENT_WAIT" type="number" class="form-control-1"
@@ -154,8 +160,16 @@
                 </div>
               </div>
             </div>
+          {{/each}}
 
-          </div>
+
+            <!--==========================
+            Modal Pop-up to add current waittimes
+            ============================-->
+
+
+
+
         </div>
       </div>
 
@@ -207,7 +221,7 @@
             <h3 class="section-title">Team Lately</h3>
             <p class="section-description">The latest, greatest team in the building!</p>
           </div>
-  
+
   <div class="row">
             <div class="col-lg-3 col-md-6">
               <div class="member">
@@ -237,7 +251,7 @@
               </div>
             </div>
 
-                
+
             <div class="col-lg-3 col-md-6">
               <div class="member">
                 <div class="pic"><img src="/image/Mugs/sam.png" alt="Sam Will Database Engineer"></div>
@@ -251,7 +265,7 @@
                 </div>
               </div>
             </div>
-  
+
             <div class="col-lg-3 col-md-6">
               <div class="member">
                 <div class="pic"><img src="/image/Mugs/sean.png" alt="Sean Hellier"></div>
@@ -265,9 +279,9 @@
                 </div>
               </div>
             </div>
-            
+
           </div>
-  
+
         </div>
       </section><!-- #team -->
     <!--==========================
@@ -352,26 +366,3 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
   <script src="/js/index.js"></script>
   <script src="/js/zomato.js"></script>
-
-  
-  
-
-  {{!-- <!-- JavaScript Libraries -->
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/jquery/jquery-migrate.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="lib/easing/easing.min.js"></script>
-  <script src="lib/wow/wow.min.js"></script>
-  <script src="lib/waypoints/waypoints.min.js"></script>
-  <script src="lib/counterup/counterup.min.js"></script>
-  <script src="lib/superfish/hoverIntent.js"></script>
-  <script src="lib/superfish/superfish.min.js"></script>
-
-  <!-- Contact Form JavaScript File -->
-  <script src="contactform/contactform.js"></script> --}}
-
-  <!-- Template Main Javascript File -->
-  <script src="js/main.js"></script>
-
-
-  {{!-- <script src="/js/index.js"></script> --}}
