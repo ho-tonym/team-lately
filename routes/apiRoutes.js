@@ -1,26 +1,26 @@
 var db = require('../models');
 
 module.exports = function (app) {
-
-	app.get('/api/checkinave/', function (req, res) {
-		db.checkins
-			.findAll({
-				attributes: ['REST_ID', [sequelize.fn('count', sequelize.col('REST_ID')), 'count']],
-				group: ['checkins.itemId'],
-				raw: true,
-				order: sequelize.literal('count DESC')
-			})
-			.then(function (average) {
-				// res.json( average );
-
-				res.redirect('/');
-			});
-	});
+	//
+	// app.get('/api/checkinave/', function (req, res) {
+	// 	db.checkins
+	// 		.findAll({
+	// 			attributes: ['REST_ID', [sequelize.fn('count', sequelize.col('REST_ID')), 'count']],
+	// 			group: ['checkins.itemId'],
+	// 			raw: true,
+	// 			order: sequelize.literal('count DESC')
+	// 		})
+	// 		.then(function (average) {
+	// 			// res.json( average );
+	//
+	// 			res.redirect('/');
+	// 		});
+	// });
 
 	// Add a new checkin to the database
 	app.post('/api/checkins/:restID', async function (req, res) {
-		// console.log(req.body);
-		// console.log(req.params.restID);
+		console.log(req.body);
+		console.log(req.params.restID);
 		const restID = req.params.restID
 		const restData = await db.Restaurants.findOne({
 			where: {REST_ID: restID},
@@ -74,6 +74,7 @@ module.exports = function (app) {
 
 	// Update database for when user has checked in
 	app.put('/api/checkinconfirm', function (req, res) {
+		console.log("yea")
 		db.checkins
 			.update(
 				{

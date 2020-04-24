@@ -97,10 +97,9 @@
   <section id="facts">
 
     <div class="container wow fadeIn">
-        {{#each restData}}
-        {{this.REST_ID}}
-        {{log this.checkins}}
-          <div class="row">
+      {{#each restData}}
+      {{this.REST_ID}}
+        <div class="row">
         <div class="col-lg-3 col-6">
           <img src={{this.REST_IMAGE}} class="img-thumbnail"
             alt="">
@@ -120,8 +119,13 @@
 
             <div class="col-lg-3 col-6 text-center">
               <span data-toggle="counter-up">
-                {{#if this.checkins.CURRENT_WAIT}}
-                  {{this.checkins.CURRENT_WAIT}}
+
+                {{#if this.checkins}}
+                  {{#each this.checkins}}
+                    {{#if @last}}
+                      {{this.CURRENT_WAIT}}
+                    {{/if}}
+                  {{/each}}
                 {{else}}
                   0
                 {{/if}}
@@ -139,80 +143,33 @@
               </span>
               <p>Mins Wait (3 or more)</p>
             </div>
-              <button class="btn btn-primary" id="myBtn">Check into Waitlist</button>
+              <button class="btn btn-primary myBtn" data-id={{this.REST_ID}}>Check into Waitlist</button>
             </div>
             <hr>
-            <div id="myModal" class="modal" tabindex="-1" role="dialog">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div id="modelInputs input-group mb-3">
-                    <form class="clearfix mb-4 form-control" action="/api/checkins/{{this.REST_ID}}" method="POST">
-                      <h2>Add your current wait time!</h2>
-                      <input name="USER_EMAIL" type="email" class="form-control-1" placeholder="Enter Email Address">
-                      {{!-- <input name="REST_ID" type="hidden" id="example-text" class="form-control-1" placeholder="Enter Resturant"> --}}
-                      <input name="CURRENT_WAIT" type="number" class="form-control-1"
-                        placeholder="Enter Current Wait Time (mins)">
-                      <input name="PARTY_SIZE" type="number" class="form-control-1" placeholder="Enter Party Size">
-
-                      <button id="submitWait" class="btn btn-primary float-right">Submit</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {{/each}}
-
-
-            <!--==========================
-            Modal Pop-up to add current waittimes
-            ============================-->
-
-
-
 
         </div>
       </div>
 
+      {{/each}}
+      <div id="myModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div id="modelInputs input-group mb-3">
+              <form class="clearfix mb-4 form-control" id="modalForm" action="/api/checkins/wdsdsadadas" method="POST">
+                <h2>Add your current wait time!</h2>
+                <input name="USER_EMAIL" type="email" class="form-control-1" placeholder="Enter Email Address">
+                {{!-- <input name="REST_ID" type="hidden" id="example-text" class="form-control-1" placeholder="Enter Resturant"> --}}
+                <input name="CURRENT_WAIT" type="number" class="form-control-1"
+                  placeholder="Enter Current Wait Time (mins)">
+                <input name="PARTY_SIZE" type="number" class="form-control-1" placeholder="Enter Party Size">
 
-      {{!-- {{#each checkins}}
-      {{USER_EMAIL}}
-      {{/each}} --}}
-
-      {{!-- {{#each data.nearby_restaurants}}
-      <div data-id="{{this.id}}" class="container wow fadeIn row">
-        <div class="col-lg-3 col-6">
-          <img src="{{this.featured_image}}" class="img-thumbnail" alt="image of {{this.name}}">
-        </div>
-        <div class="col-lg-9 col-18">
-          <div class="section-header">
-            <h3 class="section-title">{{this.name}}</h3>
-            <p class="section-description">{{this.cuisines}}</p>
-          </div>
-          <div class="row counters">
-
-
-
-            <div class="col-lg-3 col-6 text-center">
-              <span data-toggle="counter-up">{{this.waiting}}</span>
-              <p>Now Waiting</p>
+                <button id="submitWait" class="btn btn-primary float-right">Submit</button>
+              </form>
             </div>
-
-            <div class="col-lg-3 col-6 text-center">
-              <span data-toggle="counter-up">{{this.smallParty}}</span>
-              <p>Mins Wait (Party of 2)</p>
-            </div>
-
-
-            <div class="col-lg-3 col-6 text-center">
-              <span data-toggle="counter-up">{{this.largeParty}}</span>
-              <p>Mins Wait (3 or more)</p>
-            </div>
-
-
           </div>
         </div>
-        <button class="btn btn-danger delete" id="checkInBtn-{{this.id}}">Check In</button>
-        {{/each}} --}}
+      </div>
+
   </section><!-- #restaurants -->
    {{! About us /  presentation --}}
     <section id="team">
